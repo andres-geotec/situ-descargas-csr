@@ -16,11 +16,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
-      - name: Definición de node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm # o pnpm / yarn
+      # - name: Definición de node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 22
+      #     cache: npm # o pnpm / yarn
 
       - name: Actualización de npm
         run: npm install -g npm@latest
