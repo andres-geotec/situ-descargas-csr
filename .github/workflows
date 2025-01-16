@@ -1,0 +1,43 @@
+name: Construcción y despliegue
+
+on:
+  push:
+    branches:
+      - main
+
+# permissions:
+#   contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Definición de node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm # o pnpm / yarn
+
+      - name: Actualización de npm
+        run: npm install -g npm@latest
+
+      # - name: Limpieza de bibliotecas
+      #   run: |
+      #     rm -rf node_modules
+      #     rm -f package-lock.json
+
+      - name: Instalación de dependencias
+        run: npm reinstall
+
+      - name: Construcción
+        run: npm run build
+
+      - name: Despliegue 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
