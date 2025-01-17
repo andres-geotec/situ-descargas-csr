@@ -1,12 +1,13 @@
 <script setup>
-import TragetasDescarga from '@/components/TragetasDescarga.vue'
+import TargetasDescarga from '@/components/TargetasDescarga.vue'
 </script>
 
 <template>
   <main class="contenedor">
     <div class="ancho-fijo">
       <h1 class="texto-centrado">Descargas</h1>
-      <TragetasDescarga></TragetasDescarga>
+
+      <TargetasDescarga />
     </div>
   </main>
 </template>
