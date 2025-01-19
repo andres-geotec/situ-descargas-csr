@@ -1,3 +1,3 @@
 <template>
-  <div>Targeta de descargas</div>
+  <div>Tarjeta de descargas</div>
 </template>
