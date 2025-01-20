@@ -1,13 +1,34 @@
 <script setup>
-import TargetasDescarga from '@/components/TargetasDescarga.vue'
+import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
+
+fetch('https://gema.conahcyt.mx/api/v1/grupo_capas/')
+  .then((r) => {
+    console.log(r)
+  })
+  .catch()
+  .finally()
 </script>
 
 <template>
   <main class="contenedor">
-    <div class="ancho-fijo">
+    <div class="ancho-lectura">
       <h1 class="texto-centrado">Descargas</h1>
 
-      <TargetasDescarga />
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptate earum obcaecati cum
+        vero? In perspiciatis illo ea omnis, quis, eligendi at odio inventore nihil ab modi vero
+        dignissimos totam.
+      </p>
+
+      <SisdaiCampoBusqueda />
+    </div>
+
+    <div class="ancho-fijo flex flex-contenido-centrado m-8">
+      <TarjetaDescarga
+        class="columna-5"
+        v-for="_ in 'abcdefghijk'"
+        :key="`tarjeta-descarga-${_}`"
+      />
     </div>
   </main>
 </template>
