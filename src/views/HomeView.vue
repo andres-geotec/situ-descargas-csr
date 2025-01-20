@@ -1,16 +1,30 @@
 <script setup>
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
+import { ref } from 'vue'
 
-fetch('https://gema.conahcyt.mx/api/v1/grupo_capas/')
-  .then((r) => {
-    console.log(r)
-  })
-  .catch()
-  .finally()
+const { BASE_URL } = import.meta.env
+
+const grupos = ref([])
+async function consultarDatos() {
+  return fetch(`${BASE_URL}gema/grupos_capas.json`)
+    .then((r) => {
+      // console.log(r)
+      return r.ok ? r.json() : []
+    })
+    .catch()
+    .finally()
+    .then((d) => {
+      // console.log(d)
+      grupos.value = d
+    })
+}
+consultarDatos()
+
+const sisdaiModal = ref(null)
 </script>
 
 <template>
-  <main class="contenedor">
+  <main class="contenedor contenedor-descargas">
     <div class="ancho-lectura">
       <h1 class="texto-centrado">Descargas</h1>
 
@@ -23,12 +37,35 @@ fetch('https://gema.conahcyt.mx/api/v1/grupo_capas/')
       <SisdaiCampoBusqueda />
     </div>
 
-    <div class="ancho-fijo flex flex-contenido-centrado m-8">
-      <TarjetaDescarga
-        class="columna-5"
-        v-for="_ in 'abcdefghijk'"
-        :key="`tarjeta-descarga-${_}`"
-      />
+    <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
+      <h2>Capas de {{ grupo.titulo }}</h2>
+      <div class="grid">
+        <TarjetaDescarga
+          class="columna-16 columna-4-esc"
+          v-for="capa in grupo.capas"
+          :key="`tarjeta-descarga-${capa.id}`"
+          v-bind="capa"
+          @detalles="sisdaiModal?.abrirModal()"
+        />
+      </div>
     </div>
+
+    <SisdaiModal ref="sisdaiModal">
+      <!-- <template #encabezado>
+        <h1 class="m-t-0 texto-tamanio-6">
+          Descargar datos con más de una línea
+        </h1>
+      </template> -->
+    </SisdaiModal>
   </main>
 </template>
+
+<style lang="scss">
+@use '@centrogeomx/sisdai-css/src/_mixins' as mix;
+
+.contenedor-descargas .grid {
+  @include mix.mediaquery('esc') {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+</style>

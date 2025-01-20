@@ -1,44 +1,59 @@
 <script setup>
-const data = {
-  id: 604,
-  titulo:
-    'Autocorrelación espacial de la variable de tasa de mortalidad por enfermedad renal crónica y leucemias agudas, por región en la Cuenca del Alto Atoyac 2000 a 2019',
-  nombre: 'caaresa_autocorr_mort_la_erc_00_19_reg_a',
-  descripcion:
-    '<p>La capa contiene el indicador de autocorrelaci&oacute;n espacial por regi&oacute;n en la Cuenca del Alto Atoyac (CAA) de las tasas de mortalidad (defunciones por cada cien mil habitantes) por leucemias agudas en toda la poblaci&oacute;n para el periodo del 2000 al 2019, as&iacute; como por enfermedad renal cr&oacute;nica en toda la poblaci&oacute;n, la poblaci&oacute;n de 15 a 49 a&ntilde;os y en hombres de 15 a 49 a&ntilde;os para el periodo del 2010 al 2019.</p>',
-  destacada: false,
-  fuente:
-    '<p>Datos de origen del Consejo Nacional de Humanidades, Ciencias y Tecnolog&iacute;as (Conahcyt) con base en el Instituto Nacional de Estad&iacute;stica y Geograf&iacute;a (INEGI), 2000-2019.</p>',
-  geometria: 'polygon',
-  eni: [
-    {
-      id: 9,
-      nombre: 'Región de Emergencia Sanitaria y Ambiental: Cuenca del Alto Atoyac',
-      url: 'https://toxicologia.conahcyt.mx/resa-atoyac/',
-    },
-  ],
-  subcapitulos: [],
-  descarga_hotosm: [],
-  preproduccion: false,
-  num_estilos: 4,
-}
+defineProps(['titulo', 'nombre', 'descripcion', 'fuente', 'geometria', 'num_estilos'])
+const emits = defineEmits(['detalles'])
+
+const imagen = [
+  '13-Texcoco',
+  '14-Texcoco_2',
+  '01-vih',
+  '02-distribucion_variantes',
+  '03-cultivos',
+  // '1-herbicidas',
+  '06-covid19_indice de vulnerabilidad',
+  '07-plataforma_vacunacion_covid19',
+  '10-uso_de_maquinaria',
+  '10-uso_de_maquinaria',
+  '11_glifosfato',
+][Math.floor(Math.random() * 10)]
 </script>
 
 <template>
   <div class="tarjeta tarjeta-descarga">
-    <!-- <img class="tarjeta-imagen" /> -->
+    <!-- <img
+      class="tarjeta-imagen"
+      :src="`https://cdn.conahcyt.mx/gema/landing-gema/inicio/mapa-vih.png`"
+    /> -->
+    <picture>
+      <source
+        :src="`https://cdn.conahcyt.mx/gema/landing-gema/ejemplos/${imagen}.webp`"
+        type="image/webp"
+      />
+      <img
+        class="tarjeta-imagen"
+        loading="lazy"
+        :src="`https://cdn.conahcyt.mx/gema/landing-gema/ejemplos/${imagen}.jpg`"
+        alt="Imagen de muestra"
+      />
+    </picture>
 
     <div class="tarjeta-cuerpo">
-      <p class="tarjeta-titulo">{{ data.titulo }}</p>
-      <p v-html="data.descripcion" />
+      <p class="tarjeta-titulo">{{ titulo }}</p>
+      <button class="boton-primario boton-chico" @click="emits('detalles')">Ver detalles</button>
+      <!-- <p class="tarjeta-descripcion" v-html="descripcion" /> -->
 
-      <div class="tarjeta-etiqueta fuente">
+      <!-- <div class="tarjeta-etiqueta fuente">
         <p class="m-b-0"><b>Fuente:</b></p>
-        <span v-html="data.fuente" />
-      </div>
+        <span v-html="fuente" />
+      </div> -->
     </div>
 
     <div class="tarjeta-pie">
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Descargar metadatos'"
+      >
+        <span class="pictograma-metadatos" aria-hidden="true" />
+      </button>
       <button
         class="boton-pictograma boton-con-contenedor-secundario"
         v-globo-informacion:arriba="'Descargar tabla en CSV'"
@@ -82,6 +97,10 @@ const data = {
 <style lang="scss">
 .tarjeta-descarga {
   .tarjeta-cuerpo {
+    .tarjeta-descripcion {
+      max-height: 200px;
+      overflow-y: auto;
+    }
     .tarjeta-etiqueta.fuente span p:first-child {
       margin-top: 0;
     }
@@ -90,7 +109,9 @@ const data = {
   .boton-pictograma {
     span,
     img {
+      min-height: 2rem;
       height: 2rem;
+      min-width: 2rem;
       width: 2rem;
     }
   }
