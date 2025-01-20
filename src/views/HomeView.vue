@@ -1,5 +1,12 @@
 <script setup>
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
+
+fetch('https://gema.conahcyt.mx/api/v1/grupo_capas/')
+  .then((r) => {
+    console.log(r)
+  })
+  .catch()
+  .finally()
 </script>
 
 <template>

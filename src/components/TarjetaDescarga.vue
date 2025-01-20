@@ -31,28 +31,67 @@ const data = {
     <div class="tarjeta-cuerpo">
       <p class="tarjeta-titulo">{{ data.titulo }}</p>
       <p v-html="data.descripcion" />
-      <p class="tarjeta-etiqueta" v-html="data.fuente" />
+
+      <div class="tarjeta-etiqueta fuente">
+        <p class="m-b-0"><b>Fuente:</b></p>
+        <span v-html="data.fuente" />
+      </div>
     </div>
 
     <div class="tarjeta-pie">
-      <button class="boton-primario boton-chico">
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Descargar tabla en CSV'"
+      >
         <span class="pictograma-documento-csv" aria-hidden="true" />
       </button>
-      <button class="boton-primario boton-chico">
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Descargar capa en GeoJSON'"
+      >
         <span class="pictograma-documento-geojson" aria-hidden="true" />
       </button>
-      <button class="boton-primario boton-chico">
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Descargar capa en Geopaquete'"
+      >
         <span class="pictograma-documento-geopaquete" aria-hidden="true" />
+      </button>
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Descargar capa en KML'"
+      >
+        <img src="@/assets/svg/file-kml-svgrepo-com.svg" alt="" />
+      </button>
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Copiar servicio WFS'"
+      >
+        <img src="@/assets/svg/wfs-svgrepo-com.svg" alt="" />
+      </button>
+      <button
+        class="boton-pictograma boton-con-contenedor-secundario"
+        v-globo-informacion:arriba="'Copiar servicio WMS'"
+      >
+        <img src="@/assets/svg/wms-svgrepo-com.svg" alt="" />
       </button>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .tarjeta-descarga {
-  .boton-chico {
-    span {
-      padding: 0;
+  .tarjeta-cuerpo {
+    .tarjeta-etiqueta.fuente span p:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .boton-pictograma {
+    span,
+    img {
+      height: 2rem;
+      width: 2rem;
     }
   }
 }
