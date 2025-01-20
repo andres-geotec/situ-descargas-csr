@@ -38,7 +38,7 @@ const sisdaiModal = ref(null)
     </div>
 
     <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
-      <h2>Capas de {{ grupo.titulo }}</h2>
+      <h2>Temática: {{ grupo.titulo }}</h2>
       <div class="grid">
         <TarjetaDescarga
           class="columna-16 columna-4-esc"
