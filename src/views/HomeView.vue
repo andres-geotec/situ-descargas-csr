@@ -1,5 +1,6 @@
 <script setup>
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
+import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
 
 const { BASE_URL } = import.meta.env
@@ -20,7 +21,7 @@ async function consultarDatos() {
 }
 consultarDatos()
 
-const sisdaiModal = ref(null)
+const detalleCapa = ref(null)
 </script>
 
 <template>
@@ -45,18 +46,12 @@ const sisdaiModal = ref(null)
           v-for="capa in grupo.capas"
           :key="`tarjeta-descarga-${capa.id}`"
           v-bind="capa"
-          @detalles="sisdaiModal?.abrirModal()"
+          @detalles="detalleCapa.abrir(capa)"
         />
       </div>
     </div>
 
-    <SisdaiModal ref="sisdaiModal">
-      <!-- <template #encabezado>
-        <h1 class="m-t-0 texto-tamanio-6">
-          Descargar datos con más de una línea
-        </h1>
-      </template> -->
-    </SisdaiModal>
+    <DetalleCapa ref="detalleCapa" />
   </main>
 </template>
 

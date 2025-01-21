@@ -1,4 +1,6 @@
 <script setup>
+import dicGeometrias from '@/assets/data/dic-geometrias.json'
+
 defineProps(['titulo', 'nombre', 'descripcion', 'fuente', 'geometria', 'num_estilos'])
 const emits = defineEmits(['detalles'])
 
@@ -38,7 +40,7 @@ const imagen = [
 
     <div class="tarjeta-cuerpo">
       <p class="tarjeta-titulo">{{ titulo }}</p>
-      <button class="boton-primario boton-chico" @click="emits('detalles')">Ver detalles</button>
+
       <!-- <p class="tarjeta-descripcion" v-html="descripcion" /> -->
 
       <!-- <div class="tarjeta-etiqueta fuente">
@@ -48,48 +50,60 @@ const imagen = [
     </div>
 
     <div class="tarjeta-pie">
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Descargar metadatos'"
-      >
-        <span class="pictograma-metadatos" aria-hidden="true" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Descargar tabla en CSV'"
-      >
-        <span class="pictograma-documento-csv" aria-hidden="true" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Descargar capa en GeoJSON'"
-      >
-        <span class="pictograma-documento-geojson" aria-hidden="true" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Descargar capa en Geopaquete'"
-      >
-        <span class="pictograma-documento-geopaquete" aria-hidden="true" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Descargar capa en KML'"
-      >
-        <img src="@/assets/svg/file-kml-svgrepo-com.svg" alt="" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Copiar servicio WFS'"
-      >
-        <img src="@/assets/svg/wfs-svgrepo-com.svg" alt="" />
-      </button>
-      <button
-        class="boton-pictograma boton-con-contenedor-secundario"
-        v-globo-informacion:arriba="'Copiar servicio WMS'"
-      >
-        <img src="@/assets/svg/wms-svgrepo-com.svg" alt="" />
-      </button>
+      <p class="m-y-0">Descargas:</p>
+      <div class="opciones-descarga flex flex-contenido-inicio">
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Descargar metadatos'"
+        >
+          <span class="pictograma-metadatos" aria-hidden="true" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Descargar tabla en CSV'"
+        >
+          <span class="pictograma-documento-csv" aria-hidden="true" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Descargar capa en GeoJSON'"
+        >
+          <span class="pictograma-documento-geojson" aria-hidden="true" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Descargar capa en Geopaquete'"
+        >
+          <span class="pictograma-documento-geopaquete" aria-hidden="true" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Descargar capa en KML'"
+        >
+          <img src="@/assets/svg/file-kml-svgrepo-com.svg" alt="" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Copiar servicio WFS'"
+        >
+          <img src="@/assets/svg/wfs-svgrepo-com.svg" alt="" />
+        </button>
+        <button
+          class="boton-pictograma boton-con-contenedor-secundario"
+          v-globo-informacion:arriba="'Copiar servicio WMS'"
+        >
+          <img src="@/assets/svg/wms-svgrepo-com.svg" alt="" />
+        </button>
+      </div>
+
+      <div class="flex flex-contenido-separado m-t-2">
+        <span>
+          <span :class="`pictograma-capa-${dicGeometrias[geometria]}`" />
+          Capa de polígonos
+        </span>
+
+        <button class="boton-primario boton-chico" @click="emits('detalles')">Ver detalles</button>
+      </div>
     </div>
   </div>
 </template>
@@ -106,13 +120,20 @@ const imagen = [
     }
   }
 
-  .boton-pictograma {
-    span,
-    img {
-      min-height: 2rem;
-      height: 2rem;
-      min-width: 2rem;
-      width: 2rem;
+  .tarjeta-pie {
+    flex-direction: column;
+    .opciones-descarga {
+      gap: 8px;
+
+      .boton-pictograma {
+        span,
+        img {
+          min-height: 2rem;
+          height: 2rem;
+          min-width: 2rem;
+          width: 2rem;
+        }
+      }
     }
   }
 }
