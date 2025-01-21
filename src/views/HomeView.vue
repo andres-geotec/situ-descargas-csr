@@ -2,6 +2,7 @@
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
+import { ratio } from 'fuzzball'
 
 const { BASE_URL } = import.meta.env
 
@@ -22,6 +23,8 @@ async function consultarDatos() {
 consultarDatos()
 
 const detalleCapa = ref(null)
+
+console.log(ratio('hello world', 'hiyyo wyrld'))
 </script>
 
 <template>
