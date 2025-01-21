@@ -1,6 +1,8 @@
 <script setup>
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
+import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
+import { ratio } from 'fuzzball'
 
 const { BASE_URL } = import.meta.env
 
@@ -20,7 +22,9 @@ async function consultarDatos() {
 }
 consultarDatos()
 
-const sisdaiModal = ref(null)
+const detalleCapa = ref(null)
+
+console.log(ratio('hello world', 'hiyyo wyrld'))
 </script>
 
 <template>
@@ -38,25 +42,19 @@ const sisdaiModal = ref(null)
     </div>
 
     <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
-      <h2>Capas de {{ grupo.titulo }}</h2>
+      <h2>Temática: {{ grupo.titulo }}</h2>
       <div class="grid">
         <TarjetaDescarga
           class="columna-16 columna-4-esc"
           v-for="capa in grupo.capas"
           :key="`tarjeta-descarga-${capa.id}`"
           v-bind="capa"
-          @detalles="sisdaiModal?.abrirModal()"
+          @detalles="detalleCapa.abrir(capa)"
         />
       </div>
     </div>
 
-    <SisdaiModal ref="sisdaiModal">
-      <!-- <template #encabezado>
-        <h1 class="m-t-0 texto-tamanio-6">
-          Descargar datos con más de una línea
-        </h1>
-      </template> -->
-    </SisdaiModal>
+    <DetalleCapa ref="detalleCapa" />
   </main>
 </template>
 
