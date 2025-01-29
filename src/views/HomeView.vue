@@ -1,4 +1,5 @@
 <script setup>
+import OpcionesFiltrado from '@/components/OpcionesFiltrado.vue'
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
@@ -8,7 +9,7 @@ const { BASE_URL } = import.meta.env
 
 const grupos = ref([])
 async function consultarDatos() {
-  return fetch(`${BASE_URL}gema/grupos_capas.json`)
+  return fetch(`${BASE_URL}api/gema/grupos_capas.json`)
     .then((r) => {
       // console.log(r)
       return r.ok ? r.json() : []
@@ -38,7 +39,7 @@ console.log(ratio('hello world', 'hiyyo wyrld'))
         dignissimos totam.
       </p>
 
-      <SisdaiCampoBusqueda />
+      <OpcionesFiltrado />
     </div>
 
     <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
