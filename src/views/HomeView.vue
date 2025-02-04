@@ -1,9 +1,9 @@
 <script setup>
-import OpcionesFiltrado from '@/components/OpcionesFiltrado.vue'
+// import OpcionesFiltrado from '@/components/OpcionesFiltrado.vue'
+import CampoBusqueda from '@/components/CampoBusqueda.vue'
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
-import { ratio } from 'fuzzball'
 import { GetCapabilities } from '@/utils'
 import { convertXML } from 'simple-xml-to-json'
 
@@ -26,8 +26,6 @@ async function consultarDatos() {
 consultarDatos()
 
 const detalleCapa = ref(null)
-
-console.log(ratio('hello world', 'hiyyo wyrld'))
 
 const jsonCapa = ref({})
 function layerADiccionario(obj) {
@@ -89,7 +87,8 @@ query()
         dignissimos totam.
       </p>
 
-      <OpcionesFiltrado />
+      <CampoBusqueda />
+      <!-- <OpcionesFiltrado /> -->
     </div>
 
     <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
