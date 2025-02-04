@@ -4,6 +4,8 @@ import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref } from 'vue'
 import { ratio } from 'fuzzball'
+import { GetCapabilities } from '@/utils'
+import { convertXML } from 'simple-xml-to-json'
 
 const { BASE_URL } = import.meta.env
 
@@ -26,12 +28,60 @@ consultarDatos()
 const detalleCapa = ref(null)
 
 console.log(ratio('hello world', 'hiyyo wyrld'))
+
+const jsonCapa = ref({})
+function layerADiccionario(obj) {
+  // const dic = ['Name', 'Title', 'Abstract', 'KeywordList', 'SRS', 'MetadataURL']
+  // jsonCapa.value = params.map((obj) => Object.keys(obj))
+
+  const x = obj.reduce((a, b) => {
+    // const val = Object.values(b)[0]
+    // // console.log(val['content'])
+    // // console.log(val['children'])
+    // // console.log(Object.keys(val).length)
+    // console.log(val)
+
+    return { ...a, ...b }
+  }, {})
+
+  // Object.keys(x).forEach((k) => {
+  //   console.log(x[k])
+  // })
+
+  jsonCapa.value = x
+}
+
+async function query() {
+  GetCapabilities.then((response) => {
+    // console.log(response)
+
+    if (response.ok) {
+      return response.text()
+    }
+
+    // return response.json()
+  })
+    .then((xml) => {
+      const filtro = 'Layer' //SRS
+      // jsonTexto.value = convertXML(xml)
+      const json = convertXML(xml)['WMT_MS_Capabilities']['children'][1]['Capability'][
+        'children'
+      ][3]['Layer']['children'].filter((children) => Object.keys(children)[0] === filtro)
+
+      layerADiccionario(json[0][filtro]['children'])
+      // console.log(json[json.length - 1][filtro]['children'])
+    })
+    // .then((response) => console.log(response))
+    .catch((err) => console.error(err))
+}
+query()
 </script>
 
 <template>
   <main class="contenedor contenedor-descargas">
     <div class="ancho-lectura">
       <h1 class="texto-centrado">Descargas</h1>
+      <!-- <p>{{ jsonCapa }}</p> -->
 
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptate earum obcaecati cum
