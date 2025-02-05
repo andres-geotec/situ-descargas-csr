@@ -1,15 +1,16 @@
 <script setup>
 // import OpcionesFiltrado from '@/components/OpcionesFiltrado.vue'
-import CampoBusqueda from '@/components/CampoBusqueda.vue'
+import CampoBusqueda, { NormalizarTexto } from '@/components/CampoBusqueda.vue'
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { GetCapabilities } from '@/utils'
 import { convertXML } from 'simple-xml-to-json'
 
 const { BASE_URL } = import.meta.env
 
 const grupos = ref([])
+const gruposFiltrados = ref(grupos.value)
 async function consultarDatos() {
   return fetch(`${BASE_URL}api/gema/grupos_capas.json`)
     .then((r) => {
@@ -21,6 +22,7 @@ async function consultarDatos() {
     .then((d) => {
       // console.log(d)
       grupos.value = d
+      gruposFiltrados.value = d
     })
 }
 consultarDatos()
@@ -73,6 +75,22 @@ async function query() {
     .catch((err) => console.error(err))
 }
 query()
+
+const busqueda = ref('')
+
+watch(busqueda, (nv) => {
+  // console.log(nv);
+  gruposFiltrados.value = nv.trim().length > 0
+    ? grupos.value
+      .map(grupo => {
+
+        return {
+          ...grupo,
+          capas: grupo.capas.filter(capa => NormalizarTexto(capa.titulo).includes(nv))
+        }
+      })
+    : grupos.value
+})
 </script>
 
 <template>
@@ -87,11 +105,11 @@ query()
         dignissimos totam.
       </p>
 
-      <CampoBusqueda />
+      <CampoBusqueda v-model="busqueda" />
       <!-- <OpcionesFiltrado /> -->
     </div>
 
-    <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
+    <div class="ancho-fijo m-y-5" v-for="grupo in gruposFiltrados" :key="`grupo-descarga-${grupo.id}`">
       <h2>Temática: {{ grupo.titulo }}</h2>
       <div class="grid">
         <TarjetaDescarga

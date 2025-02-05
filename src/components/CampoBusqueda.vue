@@ -2,28 +2,18 @@
 import { ref, watch } from 'vue'
 import { ratio } from 'fuzzball'
 
+const busqueda = defineModel()
+
 const textoBusqueda = ref('')
 
-function NormalizarTexto(texto) {
-  return texto.trim().length > 0
-    ? texto
-        .trim()
-        .normalize('NFD')
-        .replace(/\p{Diacritic}/gu, '')
-        .toLowerCase()
-    : ''
-}
+// const x = 'hello world'
 
-const x = 'hello world'
-
-watch(
-  () => NormalizarTexto(textoBusqueda.value),
-  (nv) => {
-    if (nv.trim().length > 0) {
-      console.log(ratio(x, nv))
-    }
-  },
-)
+watch(textoBusqueda, (nv) => {
+  busqueda.value = NormalizarTexto(nv)
+  // if (nv.trim().length > 0) {
+  //   console.log(ratio(x, nv))
+  // }
+})
 </script>
 
 <template>
@@ -57,3 +47,15 @@ watch(
     </button>
   </div>
 </template>
+
+<script>
+export function NormalizarTexto(texto) {
+  return texto.trim().length > 0
+    ? texto
+        .trim()
+        .normalize('NFD')
+        .replace(/\p{Diacritic}/gu, '')
+        .toLowerCase()
+    : ''
+}
+</script>
