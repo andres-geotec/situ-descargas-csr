@@ -5,6 +5,7 @@ import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref, watch } from 'vue'
 import useGetCapabilities from '@/utils/useGetCapabilities'
+import { ratio } from 'fuzzball'
 
 const { BASE_URL } = import.meta.env
 
@@ -35,7 +36,9 @@ watch(busqueda, (nv) => {
       ? grupos.value
           .map((grupo) => ({
             ...grupo,
-            capas: grupo.capas.filter((capa) => NormalizarTexto(capa.titulo).includes(nv)),
+            capas: grupo.capas
+              .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
+              .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) })),
           }))
           .filter((grupo) => grupo.capas.length > 0)
       : grupos.value

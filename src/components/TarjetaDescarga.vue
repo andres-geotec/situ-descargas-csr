@@ -1,7 +1,7 @@
 <script setup>
 import dicGeometrias from '@/assets/data/dic-geometrias.json'
 
-defineProps(['titulo', 'nombre', 'descripcion', 'fuente', 'geometria', 'num_estilos'])
+defineProps(['titulo', 'nombre', 'descripcion', 'fuente', 'geometria', 'num_estilos', 'match'])
 const emits = defineEmits(['detalles'])
 
 const imagen = [
@@ -39,7 +39,10 @@ const imagen = [
     </picture>
 
     <div class="tarjeta-cuerpo">
-      <p class="tarjeta-titulo">{{ titulo }}</p>
+      <p class="tarjeta-titulo">
+        {{ titulo }}
+        <span v-if="match" class="etiqueta">{{ match }}</span>
+      </p>
 
       <!-- <p class="tarjeta-descripcion" v-html="descripcion" /> -->
 

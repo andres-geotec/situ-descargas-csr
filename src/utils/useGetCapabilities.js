@@ -73,11 +73,16 @@ export default function () {
                 [keys.listaPalabrasClave]: palabrasClave.map(
                   (palabra) => palabra[keys.palabraClave][keys.contenido],
                 ),
+                // metadatos
                 [keys.metadato]: {
                   ...capa[keys.metadato],
                   [keys.listaHijos]: {
                     ...metadato,
                     [keys.formato]: metadato[keys.formato][keys.contenido],
+                    ['OnlineResource']: {
+                      ...metadato['OnlineResource'],
+                      ['xlink:href']: urlCheck(metadato['OnlineResource']['xlink:href']),
+                    },
                   },
                 },
               },
@@ -106,4 +111,7 @@ function getHijos(obj, key) {
 }
 function unirObjetos(a, b) {
   return { ...a, ...b }
+}
+function urlCheck(url) {
+  return url.replaceAll('&amp;', '&')
 }
