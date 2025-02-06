@@ -1,15 +1,12 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { ratio } from 'fuzzball'
 
-const busqueda = defineModel()
+const model = defineModel()
 
 const textoBusqueda = ref('')
 
-// const x = 'hello world'
-
 watch(textoBusqueda, (nv) => {
-  busqueda.value = NormalizarTexto(nv)
+  model.value = NormalizarTexto(nv)
   // if (nv.trim().length > 0) {
   //   console.log(ratio(x, nv))
   // }
