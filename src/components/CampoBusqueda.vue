@@ -30,6 +30,7 @@ watch(textoBusqueda, (nv) => {
       type="button"
       class="boton-pictograma boton-sin-contenedor-secundario campo-busqueda-borrar"
       aria-label="Borrar"
+      v-if="textoBusqueda.length > 0"
       @click="textoBusqueda = ''"
     >
       <span class="pictograma-cerrar" aria-hidden="true" />

@@ -32,13 +32,14 @@ const detalleCapa = ref(null)
 const busqueda = ref('')
 watch(busqueda, (nv) => {
   gruposFiltrados.value =
-    nv.trim().length > 0
+    nv.length > 0
       ? grupos.value
           .map((grupo) => ({
             ...grupo,
             capas: grupo.capas
-              .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
-              .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) })),
+              // .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
+              .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) }))
+              .sort((a, b) => b.match - a.match),
           }))
           .filter((grupo) => grupo.capas.length > 0)
       : grupos.value
