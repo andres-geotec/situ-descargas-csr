@@ -1,14 +1,18 @@
 <script setup>
+// import OpcionesFiltrado from '@/components/OpcionesFiltrado.vue'
+import CampoBusqueda, { NormalizarTexto } from '@/components/CampoBusqueda.vue'
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
-import { ref } from 'vue'
-import { ratio } from 'fuzzball'
+import { ref, watch } from 'vue'
+// import useGetCapabilities from '@/utils/useGetCapabilities'
 
 const { BASE_URL } = import.meta.env
 
 const grupos = ref([])
+const gruposFiltrados = ref(grupos.value)
+const listaTitulos = ref([])
 async function consultarDatos() {
-  return fetch(`${BASE_URL}gema/grupos_capas.json`)
+  return fetch(`${BASE_URL}api/gema/grupos_capas.json`)
     .then((r) => {
       // console.log(r)
       return r.ok ? r.json() : []
@@ -18,31 +22,61 @@ async function consultarDatos() {
     .then((d) => {
       // console.log(d)
       grupos.value = d
+      gruposFiltrados.value = d
+
+      listaTitulos.value = d.map((grupo) => grupo.capas.map(({ titulo }) => [titulo, 0])).flat()
     })
 }
 consultarDatos()
 
 const detalleCapa = ref(null)
 
-console.log(ratio('hello world', 'hiyyo wyrld'))
+const busqueda = ref('')
+watch(busqueda, (nv) => {
+  gruposFiltrados.value =
+    nv.length > 0
+      ? grupos.value
+          .map((grupo) => ({
+            ...grupo,
+            capas: grupo.capas
+              .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
+              // .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) }))
+              .sort((a, b) => b.match - a.match),
+          }))
+          .filter((grupo) => grupo.capas.length > 0)
+      : grupos.value
+})
+
+// const { capas, consultar } = useGetCapabilities()
+// consultar()
+// watch(capas, (nv) => {
+//   console.log(nv)
+// })
 </script>
 
 <template>
   <main class="contenedor contenedor-descargas">
     <div class="ancho-lectura">
       <h1 class="texto-centrado">Descargas</h1>
+      <!-- <p>{{ jsonCapa }}</p> -->
 
-      <p>
+      <!-- <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam voluptate earum obcaecati cum
         vero? In perspiciatis illo ea omnis, quis, eligendi at odio inventore nihil ab modi vero
         dignissimos totam.
-      </p>
+      </p> -->
 
-      <SisdaiCampoBusqueda />
+      <CampoBusqueda v-model="busqueda" :lista="listaTitulos" />
+      <!-- <OpcionesFiltrado /> -->
     </div>
 
-    <div class="ancho-fijo m-y-5" v-for="grupo in grupos" :key="`grupo-descarga-${grupo.id}`">
-      <h2>Temática: {{ grupo.titulo }}</h2>
+    <div
+      class="ancho-fijo m-y-5"
+      v-for="grupo in gruposFiltrados"
+      :key="`grupo-descarga-${grupo.id}`"
+    >
+      <h2>Temática: {{ grupo.titulo }} ({{ grupo.capas.length }} capas)</h2>
+
       <div class="grid">
         <TarjetaDescarga
           class="columna-16 columna-4-esc"
@@ -61,9 +95,11 @@ console.log(ratio('hello world', 'hiyyo wyrld'))
 <style lang="scss">
 @use '@centrogeomx/sisdai-css/src/_mixins' as mix;
 
-.contenedor-descargas .grid {
-  @include mix.mediaquery('esc') {
-    grid-template-columns: repeat(12, 1fr);
+.contenedor-descargas {
+  .grid {
+    @include mix.mediaquery('esc') {
+      grid-template-columns: repeat(12, 1fr);
+    }
   }
 }
 </style>
