@@ -86,7 +86,7 @@ const imagen = [
           <svg
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            class="icono-svg"
+            class="icono-svg a11y-simplificada-mantener-imagen"
             aria-hidden="true"
           >
             <path
@@ -102,7 +102,7 @@ const imagen = [
           <svg
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
-            class="icono-svg"
+            class="icono-svg a11y-simplificada-mantener-imagen"
             aria-hidden="true"
           >
             <path
@@ -117,7 +117,7 @@ const imagen = [
           <svg
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
-            class="icono-svg"
+            class="icono-svg a11y-simplificada-mantener-imagen"
             aria-hidden="true"
           >
             <path

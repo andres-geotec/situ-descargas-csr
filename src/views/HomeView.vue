@@ -4,13 +4,13 @@ import CampoBusqueda, { NormalizarTexto } from '@/components/CampoBusqueda.vue'
 import TarjetaDescarga from '@/components/TarjetaDescarga.vue'
 import DetalleCapa from '@/components/DetalleCapa.vue'
 import { ref, watch } from 'vue'
-import useGetCapabilities from '@/utils/useGetCapabilities'
-import { ratio } from 'fuzzball'
+// import useGetCapabilities from '@/utils/useGetCapabilities'
 
 const { BASE_URL } = import.meta.env
 
 const grupos = ref([])
 const gruposFiltrados = ref(grupos.value)
+const listaTitulos = ref([])
 async function consultarDatos() {
   return fetch(`${BASE_URL}api/gema/grupos_capas.json`)
     .then((r) => {
@@ -23,6 +23,8 @@ async function consultarDatos() {
       // console.log(d)
       grupos.value = d
       gruposFiltrados.value = d
+
+      listaTitulos.value = d.map((grupo) => grupo.capas.map(({ titulo }) => [titulo, 0])).flat()
     })
 }
 consultarDatos()
@@ -37,19 +39,19 @@ watch(busqueda, (nv) => {
           .map((grupo) => ({
             ...grupo,
             capas: grupo.capas
-              // .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
-              .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) }))
+              .filter((capa) => NormalizarTexto(capa.titulo).includes(nv))
+              // .map((capa) => ({ ...capa, match: ratio(NormalizarTexto(capa.titulo), nv) }))
               .sort((a, b) => b.match - a.match),
           }))
           .filter((grupo) => grupo.capas.length > 0)
       : grupos.value
 })
 
-const { capas, consultar } = useGetCapabilities()
-consultar()
-watch(capas, (nv) => {
-  console.log(nv)
-})
+// const { capas, consultar } = useGetCapabilities()
+// consultar()
+// watch(capas, (nv) => {
+//   console.log(nv)
+// })
 </script>
 
 <template>
@@ -64,7 +66,7 @@ watch(capas, (nv) => {
         dignissimos totam.
       </p> -->
 
-      <CampoBusqueda v-model="busqueda" />
+      <CampoBusqueda v-model="busqueda" :lista="listaTitulos" />
       <!-- <OpcionesFiltrado /> -->
     </div>
 
@@ -93,9 +95,11 @@ watch(capas, (nv) => {
 <style lang="scss">
 @use '@centrogeomx/sisdai-css/src/_mixins' as mix;
 
-.contenedor-descargas .grid {
-  @include mix.mediaquery('esc') {
-    grid-template-columns: repeat(12, 1fr);
+.contenedor-descargas {
+  .grid {
+    @include mix.mediaquery('esc') {
+      grid-template-columns: repeat(12, 1fr);
+    }
   }
 }
 </style>
