@@ -10,32 +10,46 @@ This template should help get you started developing with Vue 3 in Vite.
 
 See [Vite Configuration Reference](https://vite.dev/config/).
 
-## Project Setup
+## Comandos del proyecto
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Compilar en local para desarrollar
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Compilar y minimizar para producción
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### Pruebas unitarias con [Vitest](https://vitest.dev/)
 
 ```sh
 npm run test:unit
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Linter con [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
+```
+
+## Docker
+
+### Levantar contenedor
+
+```sh
+sh up.sh
+```
+
+### Bajar contenedor
+
+```sh
+sh down.sh
 ```
