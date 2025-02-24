@@ -75,7 +75,7 @@ watch(busqueda, (nv) => {
       v-for="grupo in gruposFiltrados"
       :key="`grupo-descarga-${grupo.id}`"
     >
-      <h2>Temática: {{ grupo.titulo }} ({{ grupo.capas.length }} capas)</h2>
+      <h2>Tema: {{ grupo.titulo }} ({{ grupo.capas.length }} capas)</h2>
 
       <div class="grid">
         <TarjetaDescarga
