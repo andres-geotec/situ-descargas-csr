@@ -1,5 +1,5 @@
 {
-  "linestring": "lineas",
-  "polygon": "poligono",
-  "point": "puntos"
+  "linestring": { "icono": "lineas", "nombre": "lineas" },
+  "polygon": { "icono": "poligono", "nombre": "poligonos" },
+  "point": { "icono": "puntos", "nombre": "puntos" }
 }

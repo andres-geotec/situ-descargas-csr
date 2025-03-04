@@ -129,8 +129,8 @@ const imagen = [
 
       <div class="flex flex-contenido-separado m-t-2">
         <span>
-          <span :class="`pictograma-capa-${dicGeometrias[geometria]}`" />
-          Capa de polígonos
+          <span :class="`pictograma-capa-${dicGeometrias[geometria].icono}`" />
+          Capa de {{ dicGeometrias[geometria].nombre }}
         </span>
 
         <button class="boton-primario boton-chico" @click="emits('detalles')">Ver detalles</button>
